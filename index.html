@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>rulesABZ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="main.css">
+  </head>
+  <body>
+    <div class="container">
+      <div class="ssh">
+          <div id="Vbox" class="header">Virtualbox</div>
+          <div id="Host1" class="header">Хост 1</div>
+          <div id="Host2" class="header">Хост 2</div>
+
+          <div class="auth">
+            <label for="auth.ip">IP</label>
+            <input type="text" id="auth.ip" value="10.66.66.1">
+
+            <label for="auth.username">Имя пользователя</label>
+            <input type="text" id="auth.username">
+
+            <label for="auth.password">Пароль</label>
+            <input type="password" id="auth.password">
+          </div>
+
+          <div class="host1">
+            <label for="host1.ip">IP</label>
+            <input type="text" id="host1.ip" value="10.66.66.2">
+            <div id="host1.text" style="display: none;">SteamID</div>
+            <textarea id="host1.id" style="display: none;" maxlength="17"></textarea>
+          </div>
+
+          <div class="host2" id="host2">
+            <div id="host2.text" style="display: none;">
+              <label for="host2.ip">IP</label>
+              <input type="text" id="host2.ip" value="10.66.66.3">
+            </div>
+            <div>SteamID</div>
+            <textarea id="host2.id" maxlength="17"></textarea>
+          </div>
+      </div>
+
+      <div class="rules">
+        <div class="steamid">
+          <div style="margin-left: 30px;">SteamID других игроков</div>
+          <textarea id="users"></textarea>
+        </div>
+        
+        <div class="buttons">
+          <button id="update">Обновить правила</button>
+          <button id="one.pc" class="button_margin">1 ПК</button>
+          <button id="two.pc">2 ПК</button>
+        </div>
+
+        <div class="status">
+          <div id="version">ERROR</div>
+          <div id="status"></div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
