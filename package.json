@@ -1,13 +1,13 @@
 {
   "name": "rulesABZ",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "ABZ",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
     "dist": "electron-builder"
   },
-  "repository": "Discord",
+  "repository": "https://github.com/devMorpheus/rulesABZ",
   "keywords": [
     "ABZ"
   ],
@@ -23,7 +23,7 @@
     "electron-log": "^4.2.4"
   },
   "build": {
-    "appId": "com.example.rulesabz",
+    "appId": "dev.morpheus.rulesabz",
     "win": {
       "target": "portable"
     }

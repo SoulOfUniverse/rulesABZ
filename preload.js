@@ -167,6 +167,31 @@ function update(){
   }
 }
 
+function remove() {
+  if (auth_check() == 'OK') {
+    auth_save(auth_ip, auth_username, auth_password);
+
+    document.getElementById('status').innerHTML = 'Статус: удаление правил'
+
+    var command = btoa('count=$(iptables -L | grep "27000:27200" | wc -l)\nfor ((i = 0; i < count; i++))\ndo\niptables -D FORWARD 1\ndone')
+
+    var ssh_cwd = '/home/' + auth_username
+    var ssh_root = 'echo \"'+auth_password+'\" | sudo -S bash -c \"'+'echo '+command+' | base64 --decode | bash'+'\"'
+
+    ssh.connect({
+      host: auth_ip,
+      username: auth_username,
+      password: auth_password
+    }).then(function() {
+      ssh.execCommand(ssh_root, { cwd:ssh_cwd }).then(function(result) {
+        log.info('REMOVE STDOUT:\n' + result.stdout);
+        log.info('REMOVE STDERR:\n' + result.stderr);
+        document.getElementById('status').innerHTML = 'Статус: правила удалены'
+      })
+    })
+  }
+}
+
 function auth_save(ip, username, password){
   fs.writeFileSync(auth_path, ip+';'+username+';'+password)
 }
@@ -194,8 +219,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
   auth_read()
 
-  document.getElementById('version').innerHTML = 'v0.0.4'
+  document.getElementById('version').innerHTML = 'v0.0.5'
   document.getElementById('update').addEventListener("click", update);
+  document.getElementById('remove').addEventListener("click", remove);
   document.getElementById('one.pc').addEventListener("click", one_host);
   document.getElementById('two.pc').addEventListener("click", two_host);
 })
