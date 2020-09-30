@@ -219,7 +219,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
   auth_read()
 
-  document.getElementById('version').innerHTML = 'v0.0.5'
+  document.getElementById('version').innerHTML = 'v0.0.6'
   document.getElementById('update').addEventListener("click", update);
   document.getElementById('remove').addEventListener("click", remove);
   document.getElementById('one.pc').addEventListener("click", one_host);

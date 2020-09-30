@@ -1,6 +1,6 @@
 {
   "name": "rulesABZ",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "ABZ",
   "main": "main.js",
   "scripts": {
@@ -12,7 +12,7 @@
     "ABZ"
   ],
   "author": "Морфеус",
-  "license": "mit",
+  "license": "MIT",
   "devDependencies": {
     "electron": "^10.0.0",
     "electron-builder": "^22.8.0"
@@ -20,7 +20,8 @@
   "dependencies": {
     "node-ssh": "^11.0.0",
     "ip-validator": "^0.0.1",
-    "electron-log": "^4.2.4"
+    "electron-log": "^4.2.4",
+    "electron-context-menu": "^2.3.0"
   },
   "build": {
     "appId": "dev.morpheus.rulesabz",
