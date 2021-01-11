@@ -2,6 +2,9 @@
 // It has the same sandbox as a Chrome extension.
 const log = require('electron-log');
 const os = require('os');
+const nodeCache = require('node-cache');
+const appCache = new nodeCache();
+const steamapikey = '731E8426301F0D5E79F3FEFDC225BFB9';
 var validate = require('ip-validator');
 fs = require('fs')
 path = require('path')
@@ -54,7 +57,7 @@ function error(err) {
     break;
   }
 
-  elem_status.innerHTML = str
+  elem_status.innerHTML = str + err;
 }
 
 function clear_error() {
@@ -88,6 +91,74 @@ function auth_check() {
 
   clear_error()
   return 'OK'
+}
+
+function onlyUnique(value, index, self) {
+  return self.indexOf(value) === index;
+}
+
+function usernames_loading(){
+  document.getElementById('usernames').value = "loading...";
+}
+
+function usernames_clear(){
+  document.getElementById('usernames').value = "";
+}
+
+function get_ids(){
+  return document.getElementById('users').value.split('\n');
+}
+
+function users_update(ids){
+  document.getElementById('users').value = ids.join('\n');
+}
+
+function users_to_usernames(){
+  ids = get_ids().filter(onlyUnique);
+  ids = ids.filter(value => Object.keys(value).length !== 0);
+  // very important to create sorted array without reference to first object
+  var idssorted =  Object.create(ids);
+  cachekey = idssorted.sort().join();
+  users_update(ids);
+  usernames_loading();
+  if (ids.length > 0){
+    var steamids = ids.join();
+    if (appCache.has(cachekey)){
+      var cachedData = appCache.get(cachekey);
+      process_steam_players(cachedData, ids);
+    }
+    else {
+      $.ajax({ 
+        type: 'GET',
+        url: 'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/?key=' + steamapikey + '&steamids=' + steamids,
+        success: function(data){
+          console.log(data);
+          appCache.set(cachekey, data.response.players);
+          process_steam_players(data.response.players, ids);
+        },
+        error: function(data){
+          error(data);
+        }
+      });
+    }
+  }
+  else {
+    usernames_clear();
+  }
+}
+
+function process_steam_players(data, ids){
+  document.getElementById('usernames').value = "";
+  if (data.length > 0){
+    for (k = 0; k < ids.length; k++){
+      data.forEach(function(player,index){
+        if (ids[k] == player.steamid){
+          document.getElementById('usernames').value += player.personaname +'\n';
+          return;
+        }
+      });
+    }
+  }
 }
 
 function host1_load(){
@@ -203,6 +274,8 @@ function auth_read(){
     document.getElementById('auth.username').value = data[1]
     document.getElementById('auth.password').value = data[2]
   }
+
+ 
 }
 
 window.addEventListener('DOMContentLoaded', () => {
@@ -219,9 +292,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
   auth_read()
 
-  document.getElementById('version').innerHTML = 'v0.0.6'
+  document.getElementById('version').innerHTML = 'v0.0.7'
   document.getElementById('update').addEventListener("click", update);
   document.getElementById('remove').addEventListener("click", remove);
   document.getElementById('one.pc').addEventListener("click", one_host);
   document.getElementById('two.pc').addEventListener("click", two_host);
+  document.getElementById('users').addEventListener("focusout", users_to_usernames);
 })

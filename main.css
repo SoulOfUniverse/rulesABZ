@@ -147,6 +147,11 @@ label {
     padding-left: 8px;
 }
 
+.steamid textarea.text {
+    width: 48% !important;
+    display: inline !important;
+}
+
 .buttons {
     margin-top: 0px;
     margin-left: 7px;
