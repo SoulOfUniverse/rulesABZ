@@ -124,7 +124,7 @@ function users_to_usernames(){
   var idssorted =  Object.create(ids);
   cachekey = idssorted.sort().join();
   users_update(ids);
-  status('подгружаем список пользователей')
+  status('загружается список пользователей')
   usernames_loading();
   if (ids.length > 0){
     var steamids = ids.join();
@@ -165,7 +165,7 @@ function process_steam_players(data, ids){
         }
       });
     }
-    status('пользователи успешно подгруженны')
+    status('пользователи успешно загружены')
   }
 }
 
