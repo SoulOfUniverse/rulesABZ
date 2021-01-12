@@ -148,7 +148,7 @@ function users_to_usernames(){
 }
 
 function process_steam_players(data, ids){
-  document.getElementById('usernames').value = "";
+  usernames_clear();
   if (data.length > 0){
     for (k = 0; k < ids.length; k++){
       data.forEach(function(player,index){
