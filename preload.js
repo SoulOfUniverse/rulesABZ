@@ -60,6 +60,10 @@ function error(err) {
   elem_status.innerHTML = str + err;
 }
 
+function status(message) {
+  document.getElementById('status').innerHTML = 'Статус: ' + message;
+}
+
 function clear_error() {
   document.getElementById('status').innerHTML = ""
 }
@@ -120,6 +124,7 @@ function users_to_usernames(){
   var idssorted =  Object.create(ids);
   cachekey = idssorted.sort().join();
   users_update(ids);
+  status('подгружаем список пользователей')
   usernames_loading();
   if (ids.length > 0){
     var steamids = ids.join();
@@ -137,8 +142,10 @@ function users_to_usernames(){
           process_steam_players(data.response.players, ids);
         },
         error: function(data){
-          error(data);
-        }
+          usernames_clear();
+          error("таймаут, проверьте соединение и попробуйте еще раз");
+        },
+        timeout: 3000
       });
     }
   }
@@ -158,6 +165,7 @@ function process_steam_players(data, ids){
         }
       });
     }
+    status('пользователи успешно подгруженны')
   }
 }
 
