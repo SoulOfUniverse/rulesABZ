@@ -8,3 +8,5 @@
 /.vs/rulesABZ/config/applicationhost.config
 /.vs/VSWorkspaceState.json
 /.vs/rulesABZ/v16/.suo
+/dist/win-unpacked
+/dist
